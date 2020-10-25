@@ -13,7 +13,7 @@
   <Device Name="VIEW" Type="ImageDev" x="727.7778" y="288.8889" >
     <Parameter Name="Length" Value="820" />
     <Parameter Name="Height" Value="900" />
-    <Resource Name="RES" Type="ImageResource" x="905.8823" y="1088.2352" >
+    <Resource Name="RES" Type="ImageResource" x="905.55554" y="1088.8888" >
       <FBNetwork >
         <FB Name="Clock" Type="Clock" x="988.88885" y="72.22222" >
           <Parameter Name="Period" Value="t#200ms" />
@@ -206,7 +206,7 @@
           <Parameter Name="PE" Value="0" />
         </FB>
         <FB Name="FCOne" Type="CENTRALTwoConCtl" x="2435.2942" y="111.7647" />
-        <FB Name="FCThree" Type="CENTRALTwoConCtl" x="3782.3528" y="129.41176" />
+        <FB Name="FCThree" Type="CENTRALTwoConCtl" x="3764.7058" y="76.47059" />
         <FB Name="CentralServer" Type="CEN_SERVER" x="5529.4116" y="258.82352" />
         <EventConnections>
           <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="29.411764" dx2="20.0" dy="-60.0" />
@@ -214,7 +214,7 @@
           <Connection Source="BagInOne.INITO" Destination="BagIn1.INIT" dx1="158.82353" dx2="46.666664" dy="-773.3333" />
           <Connection Source="BagInOne.IND" Destination="BagIn1.REQ" dx1="152.94118" dx2="46.666664" dy="-886.6666" />
           <Connection Source="BagInThree.INITO" Destination="BagIn3.INIT" dx1="58.82353" />
-          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="29.411764" />
+          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="29.411764" dx2="0.0" dy="-211.76471" />
           <Connection Source="BagInTwo.INITO" Destination="BagIn2.INIT" dx1="47.058823" />
           <Connection Source="PE.IND" Destination="FCTwo.REQ" dx1="311.7647" dx2="129.41176" dy="-2205.8823" />
           <Connection Source="PE.IND" Destination="TCOne.REQ" dx1="1294.1177" dx2="126.666664" dy="-2206.6665" />
@@ -227,7 +227,7 @@
           <Connection Source="BagIn4.CNF" Destination="FCFour.REQ" dx1="1658.8235" dx2="126.666664" dy="-3313.3333" />
           <Connection Source="FCFour.CNF" Destination="ConControl.REQ" dx1="1052.9412" dx2="153.33333" dy="-2646.6665" />
           <Connection Source="FCTwo.CNF" Destination="ConControl.REQ" dx1="2023.5294" />
-          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="29.411764" />
+          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="29.411764" dx2="0.0" dy="-1005.8823" />
           <Connection Source="BagIn3.INITO" Destination="BagInFour.INIT" dx1="29.411764" dx2="5.882353" dy="-1876.4706" />
           <Connection Source="BagIn4.INITO" Destination="PE.INIT" dx1="229.41176" dx2="26.666666" dy="693.3333" />
           <Connection Source="PE.INITO" Destination="ConControl.INIT" dx1="2276.4705" />
@@ -251,8 +251,8 @@
           <Connection Source="FCOne.REQ_TOKEN" Destination="CentralServer.REQ1" dx1="376.47058" />
           <Connection Source="FCThree.REL_TOKEN" Destination="CentralServer.REL2" dx1="541.17645" />
           <Connection Source="FCThree.REQ_TOKEN" Destination="CentralServer.REQ2" dx1="182.35294" />
-          <Connection Source="CentralServer.TOK_GIVE_1" Destination="FCOne.TOKEN_GET" dx1="29.411764" />
-          <Connection Source="CentralServer.TOK_GIVE_2" Destination="FCThree.TOKEN_GET" dx1="29.411764" />
+          <Connection Source="CentralServer.TOK_GIVE_1" Destination="FCOne.TOKEN_GET" dx1="29.411764" dx2="0.0" dy="-311.7647" />
+          <Connection Source="CentralServer.TOK_GIVE_2" Destination="FCThree.TOKEN_GET" dx1="29.411764" dx2="0.0" dy="-429.41174" />
         </EventConnections>
         <DataConnections>
           <Connection Source="FCTwo.BlockCon" Destination="TCOne.Block" dx1="264.70587" />
