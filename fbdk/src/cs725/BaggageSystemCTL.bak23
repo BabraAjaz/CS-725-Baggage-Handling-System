@@ -205,9 +205,9 @@
           <Parameter Name="Block" Value="0" />
           <Parameter Name="PE" Value="0" />
         </FB>
+        <FB Name="CentralServer" Type="CEN_SERVER" x="4029.4116" y="558.82355" />
         <FB Name="FCOne" Type="CENTRALTwoConCtl" x="2435.2942" y="111.7647" />
-        <FB Name="FCThree" Type="CENTRALTwoConCtl" x="3764.7058" y="76.47059" />
-        <FB Name="CentralServer" Type="CEN_SERVER" x="5529.4116" y="258.82352" />
+        <FB Name="FCThree" Type="CENTRALTwoConCtl" x="4982.353" y="135.29411" />
         <EventConnections>
           <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="29.411764" dx2="20.0" dy="-60.0" />
           <Connection Source="BagInThree.IND" Destination="BagIn3.REQ" dx1="58.82353" />
@@ -243,16 +243,14 @@
           <Connection Source="PE.IND" Destination="FCThree.REQ" dx1="1464.7058" />
           <Connection Source="FCOne.CNF" Destination="ConControl.REQ" dx1="764.7059" />
           <Connection Source="FCThree.CNF" Destination="ConControl.REQ" dx1="358.82352" />
+          <Connection Source="FCOne.REQ_TOKEN" Destination="CentralServer.REQ1" dx1="111.7647" />
+          <Connection Source="FCOne.REL_TOKEN" Destination="CentralServer.REL1" dx1="535.2941" />
+          <Connection Source="FCThree.REL_TOKEN" Destination="CentralServer.REL2" dx1="29.411764" dx2="0.0" dy="-335.2941" />
+          <Connection Source="FCThree.REQ_TOKEN" Destination="CentralServer.REQ2" dx1="29.411764" dx2="0.0" dy="-452.94116" />
           <Connection Source="TCOne.START" Destination="FCOne.START" dx1="29.411764" dx2="5.882353" dy="-3764.7058" />
           <Connection Source="TCOne.STOP" Destination="FCOne.STOP" dx1="29.411764" dx2="5.882353" dy="-3876.4705" />
           <Connection Source="TCOne.START" Destination="FCThree.START" dx1="29.411764" dx2="5.882353" dy="-3764.7058" />
           <Connection Source="TCOne.STOP" Destination="FCThree.STOP" dx1="29.411764" dx2="5.882353" dy="-3876.4705" />
-          <Connection Source="FCOne.REL_TOKEN" Destination="CentralServer.REL1" dx1="1723.5294" />
-          <Connection Source="FCOne.REQ_TOKEN" Destination="CentralServer.REQ1" dx1="376.47058" />
-          <Connection Source="FCThree.REL_TOKEN" Destination="CentralServer.REL2" dx1="541.17645" />
-          <Connection Source="FCThree.REQ_TOKEN" Destination="CentralServer.REQ2" dx1="182.35294" />
-          <Connection Source="CentralServer.TOK_GIVE_1" Destination="FCOne.TOKEN_GET" dx1="29.411764" dx2="0.0" dy="-311.7647" />
-          <Connection Source="CentralServer.TOK_GIVE_2" Destination="FCThree.TOKEN_GET" dx1="29.411764" dx2="0.0" dy="-429.41174" />
         </EventConnections>
         <DataConnections>
           <Connection Source="FCTwo.BlockCon" Destination="TCOne.Block" dx1="264.70587" />
