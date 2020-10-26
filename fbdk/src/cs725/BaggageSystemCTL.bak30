@@ -207,7 +207,7 @@
         </FB>
         <FB Name="FCOne" Type="CENTRALTwoConCtl" x="2435.2942" y="111.7647" />
         <FB Name="FCThree" Type="CENTRALTwoConCtl" x="3782.3528" y="129.41176" />
-        <FB Name="CentralServer" Type="CEN_SERVER" x="5488.2354" y="423.52942" />
+        <FB Name="CentralServer" Type="CEN_SERVER" x="5529.4116" y="258.82352" />
         <EventConnections>
           <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="29.411764" dx2="20.0" dy="-60.0" />
           <Connection Source="BagInThree.IND" Destination="BagIn3.REQ" dx1="58.82353" />

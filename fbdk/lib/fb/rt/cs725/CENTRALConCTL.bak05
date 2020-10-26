@@ -126,9 +126,9 @@ public class CENTRALConCTL extends FBInstance
   public void connect_PE_EXIT(BOOL newIV){
     PE_EXIT = newIV;
     }
-private static final int index_STILL = 0;
-private void state_STILL(){
-  eccState = index_STILL;
+private static final int index_IDLE = 0;
+private void state_IDLE(){
+  eccState = index_IDLE;
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
@@ -139,56 +139,63 @@ private void state_INIT(){
   alg_INIT();
   INITO.serviceEvent(this);
   CNF.serviceEvent(this);
-state_STILL();
+state_IDLE();
 }
-private static final int index_START_ENTER = 2;
-private void state_START_ENTER(){
-  eccState = index_START_ENTER;
+private static final int index_WANT = 2;
+private void state_WANT(){
+  eccState = index_WANT;
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
-  TOK_REQ.serviceEvent(this);
+  alg_STOP();
+  alg_STOP();
 }
-private static final int index_TOK_REC = 3;
-private void state_TOK_REC(){
-  eccState = index_TOK_REC;
+private static final int index_RECEIVED = 3;
+private void state_RECEIVED(){
+  eccState = index_RECEIVED;
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
+  alg_START();
 }
-private static final int index_NEW_BAG = 4;
-private void state_NEW_BAG(){
-  eccState = index_NEW_BAG;
+private static final int index_WAIT_NEXT = 4;
+private void state_WAIT_NEXT(){
+  eccState = index_WAIT_NEXT;
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
 }
-private static final int index_FINISHED_ENTER = 5;
-private void state_FINISHED_ENTER(){
-  eccState = index_FINISHED_ENTER;
+private static final int index_DEPARTED_CURRENT = 5;
+private void state_DEPARTED_CURRENT(){
+  eccState = index_DEPARTED_CURRENT;
 }
-private static final int index_START_EXIT = 6;
-private void state_START_EXIT(){
-  eccState = index_START_EXIT;
+private static final int index_RELEASE = 6;
+private void state_RELEASE(){
+  eccState = index_RELEASE;
 }
-private static final int index_START_EXIT_STOP_NEW_BAG = 7;
-private void state_START_EXIT_STOP_NEW_BAG(){
-  eccState = index_START_EXIT_STOP_NEW_BAG;
+private static final int index_RELEASE_AND_WANT = 7;
+private void state_RELEASE_AND_WANT(){
+  eccState = index_RELEASE_AND_WANT;
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
 }
-private static final int index_FINISH_EXIT = 8;
-private void state_FINISH_EXIT(){
-  eccState = index_FINISH_EXIT;
-  TOK_REL.serviceEvent(this);
-state_STILL();
+private static final int index_DELAY_WANT = 8;
+private void state_DELAY_WANT(){
+  eccState = index_DELAY_WANT;
+state_WANT();
 }
-private static final int index_FINISH_EXIT_START_NEW_BAG = 9;
-private void state_FINISH_EXIT_START_NEW_BAG(){
-  eccState = index_FINISH_EXIT_START_NEW_BAG;
+private static final int index_DELAY_RELEASE = 9;
+private void state_DELAY_RELEASE(){
+  eccState = index_DELAY_RELEASE;
   TOK_REL.serviceEvent(this);
-state_START_ENTER();
+state_IDLE();
+}
+private static final int index_DELAY_RELEASE_AND_WANT = 10;
+private void state_DELAY_RELEASE_AND_WANT(){
+  eccState = index_DELAY_RELEASE_AND_WANT;
+  TOK_REL.serviceEvent(this);
+state_WANT();
 }
 /** The default constructor. */
 public CENTRALConCTL(){
@@ -207,18 +214,18 @@ public CENTRALConCTL(){
   }
 /** Services the INIT event. */
   public void service_INIT(){
-    if ((eccState == index_STILL)) state_INIT();
+    if ((eccState == index_IDLE)) state_INIT();
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_TOK_REC) && (PE_ENTER.value)) state_FINISHED_ENTER();
-    else if ((eccState == index_FINISHED_ENTER) && (!PE_ENTER.value)) state_NEW_BAG();
-    else if ((eccState == index_NEW_BAG) && (!PE_EXIT.value)) state_START_EXIT_STOP_NEW_BAG();
-    else if ((eccState == index_FINISHED_ENTER) && (!PE_EXIT.value)) state_START_EXIT();
-    else if ((eccState == index_STILL) && (!PE_ENTER.value)) state_START_ENTER();
-    else if ((eccState == index_START_EXIT) && (PE_EXIT.value)) state_FINISH_EXIT();
-    else if ((eccState == index_START_EXIT_STOP_NEW_BAG) && (PE_EXIT.value)) state_FINISH_EXIT_START_NEW_BAG();
-    else if ((eccState == index_START_EXIT) && (!PE_ENTER.value)) state_START_EXIT_STOP_NEW_BAG();
+    if ((eccState == index_RECEIVED) && (PE_ENTER.value)) state_DEPARTED_CURRENT();
+    else if ((eccState == index_DEPARTED_CURRENT) && (!PE_ENTER.value)) state_WAIT_NEXT();
+    else if ((eccState == index_WAIT_NEXT) && (!PE_EXIT.value)) state_RELEASE_AND_WANT();
+    else if ((eccState == index_DEPARTED_CURRENT) && (!PE_EXIT.value)) state_RELEASE();
+    else if ((eccState == index_IDLE) && (!PE_ENTER.value)) state_DELAY_WANT();
+    else if ((eccState == index_RELEASE) && (PE_EXIT.value)) state_DELAY_RELEASE();
+    else if ((eccState == index_RELEASE_AND_WANT) && (PE_EXIT.value)) state_DELAY_RELEASE_AND_WANT();
+    else if ((eccState == index_RELEASE) && (!PE_ENTER.value)) state_RELEASE_AND_WANT();
   }
 /** Services the CAS_STOP event. */
   public void service_CAS_STOP(){
@@ -228,7 +235,7 @@ public CENTRALConCTL(){
   }
 /** Services the TOK_GIVEN event. */
   public void service_TOK_GIVEN(){
-    if ((eccState == index_START_ENTER)) state_TOK_REC();
+    if ((eccState == index_WANT)) state_RECEIVED();
   }
   /** ALGORITHM INIT IN ST*/
 public void alg_INIT(){

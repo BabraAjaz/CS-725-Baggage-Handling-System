@@ -39,32 +39,32 @@ public class CEN_SERVER extends FBInstance
     if("TOK_GIVE_1".equals(s)) return TOK_GIVE_1;
     if("TOK_GIVE_2".equals(s)) return TOK_GIVE_2;
     return super.eoNamed(s);}
-private static final int index_IDLE = 0;
-private void state_IDLE(){
-  eccState = index_IDLE;
-  alg_IDLE();
+private static final int index_NOREQUEST = 0;
+private void state_NOREQUEST(){
+  eccState = index_NOREQUEST;
+  alg_NOREQUEST();
 }
-private static final int index_FCOne_REQ = 1;
-private void state_FCOne_REQ(){
-  eccState = index_FCOne_REQ;
+private static final int index_Requested1 = 1;
+private void state_Requested1(){
+  eccState = index_Requested1;
   TOK_GIVE_1.serviceEvent(this);
-  alg_FCOneREQ();
+  alg_REQUESTED1();
 }
-private static final int index_FCThreeREQ = 2;
-private void state_FCThreeREQ(){
-  eccState = index_FCThreeREQ;
+private static final int index_Requested2 = 2;
+private void state_Requested2(){
+  eccState = index_Requested2;
   TOK_GIVE_2.serviceEvent(this);
-  alg_FCThreeREQ();
+  alg_REQUESTED2();
 }
-private static final int index_AWAIT_REQ1 = 3;
-private void state_AWAIT_REQ1(){
-  eccState = index_AWAIT_REQ1;
-  alg_AWAITING1REL();
+private static final int index_Awaiting1Release = 3;
+private void state_Awaiting1Release(){
+  eccState = index_Awaiting1Release;
+  alg_AWAITING1RELEASE();
 }
-private static final int index_AWAIT_REQ2 = 4;
-private void state_AWAIT_REQ2(){
-  eccState = index_AWAIT_REQ2;
-  alg_AWAITING2REL();
+private static final int index_Awaiting2Release = 4;
+private void state_Awaiting2Release(){
+  eccState = index_Awaiting2Release;
+  alg_AWAITING2RELEASE();
 }
 /** The default constructor. */
 public CEN_SERVER(){
@@ -80,42 +80,47 @@ public CEN_SERVER(){
   }
 /** Services the REQ1 event. */
   public void service_REQ1(){
-    if ((eccState == index_IDLE)) state_FCOne_REQ();
-    else if ((eccState == index_FCThreeREQ)) state_AWAIT_REQ2();
+    if ((eccState == index_NOREQUEST)) state_Requested1();
+    else if ((eccState == index_Requested2)) state_Awaiting2Release();
   }
 /** Services the REQ2 event. */
   public void service_REQ2(){
-    if ((eccState == index_IDLE)) state_FCThreeREQ();
-    else if ((eccState == index_FCOne_REQ)) state_AWAIT_REQ1();
+    if ((eccState == index_NOREQUEST)) state_Requested2();
+    else if ((eccState == index_Requested1)) state_Awaiting1Release();
   }
 /** Services the REL1 event. */
   public void service_REL1(){
-    if ((eccState == index_FCOne_REQ)) state_IDLE();
-    else if ((eccState == index_AWAIT_REQ1)) state_FCThreeREQ();
+    if ((eccState == index_Requested1)) state_NOREQUEST();
+    else if ((eccState == index_Awaiting1Release)) state_Requested2();
   }
 /** Services the REL2 event. */
   public void service_REL2(){
-    if ((eccState == index_FCThreeREQ)) state_IDLE();
-    else if ((eccState == index_AWAIT_REQ2)) state_FCOne_REQ();
+    if ((eccState == index_Requested2)) state_NOREQUEST();
+    else if ((eccState == index_Awaiting2Release)) state_Requested1();
   }
-  /** ALGORITHM IDLE IN Java*/
-public void alg_IDLE(){
+  /** ALGORITHM NOREQUEST IN Java*/
+public void alg_NOREQUEST(){
+System.out.println("Server: NOREQUEST");
 
 }
-  /** ALGORITHM FCThreeREQ IN Java*/
-public void alg_FCThreeREQ(){
+  /** ALGORITHM REQUESTED2 IN Java*/
+public void alg_REQUESTED2(){
+System.out.println("Server: REQUESTED2");
 
 }
-  /** ALGORITHM FCOneREQ IN Java*/
-public void alg_FCOneREQ(){
+  /** ALGORITHM REQUESTED1 IN Java*/
+public void alg_REQUESTED1(){
+System.out.println("Server: REQUESTED1");
 
 }
-  /** ALGORITHM AWAITING1REL IN Java*/
-public void alg_AWAITING1REL(){
+  /** ALGORITHM AWAITING1RELEASE IN Java*/
+public void alg_AWAITING1RELEASE(){
+System.out.println("Server: AWAITING1RELEASE");
 
 }
-  /** ALGORITHM AWAITING2REL IN Java*/
-public void alg_AWAITING2REL(){
+  /** ALGORITHM AWAITING2RELEASE IN Java*/
+public void alg_AWAITING2RELEASE(){
+System.out.println("Server: AWAITING2RELEASE");
 
 }
 }

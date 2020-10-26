@@ -147,25 +147,24 @@ private void state_START_ENTER(){
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
-  TOK_REQ.serviceEvent(this);
 }
-private static final int index_TOK_REC = 3;
-private void state_TOK_REC(){
-  eccState = index_TOK_REC;
+private static final int index_RECEIVED_TOKEN = 3;
+private void state_RECEIVED_TOKEN(){
+  eccState = index_RECEIVED_TOKEN;
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
 }
-private static final int index_NEW_BAG = 4;
-private void state_NEW_BAG(){
-  eccState = index_NEW_BAG;
+private static final int index_NEW_BAG_ENTER = 4;
+private void state_NEW_BAG_ENTER(){
+  eccState = index_NEW_BAG_ENTER;
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
 }
-private static final int index_FINISHED_ENTER = 5;
-private void state_FINISHED_ENTER(){
-  eccState = index_FINISHED_ENTER;
+private static final int index_FINSIHED_ENTER = 5;
+private void state_FINSIHED_ENTER(){
+  eccState = index_FINSIHED_ENTER;
 }
 private static final int index_START_EXIT = 6;
 private void state_START_EXIT(){
@@ -178,9 +177,9 @@ private void state_START_EXIT_STOP_NEW_BAG(){
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
 }
-private static final int index_FINISH_EXIT = 8;
-private void state_FINISH_EXIT(){
-  eccState = index_FINISH_EXIT;
+private static final int index_FINISH_EXIT_RELEASE_TOKEN = 8;
+private void state_FINISH_EXIT_RELEASE_TOKEN(){
+  eccState = index_FINISH_EXIT_RELEASE_TOKEN;
   TOK_REL.serviceEvent(this);
 state_STILL();
 }
@@ -211,12 +210,12 @@ public CENTRALConCTL(){
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_TOK_REC) && (PE_ENTER.value)) state_FINISHED_ENTER();
-    else if ((eccState == index_FINISHED_ENTER) && (!PE_ENTER.value)) state_NEW_BAG();
-    else if ((eccState == index_NEW_BAG) && (!PE_EXIT.value)) state_START_EXIT_STOP_NEW_BAG();
-    else if ((eccState == index_FINISHED_ENTER) && (!PE_EXIT.value)) state_START_EXIT();
+    if ((eccState == index_RECEIVED_TOKEN) && (PE_ENTER.value)) state_FINSIHED_ENTER();
+    else if ((eccState == index_FINSIHED_ENTER) && (!PE_ENTER.value)) state_NEW_BAG_ENTER();
+    else if ((eccState == index_NEW_BAG_ENTER) && (!PE_EXIT.value)) state_START_EXIT_STOP_NEW_BAG();
+    else if ((eccState == index_FINSIHED_ENTER) && (!PE_EXIT.value)) state_START_EXIT();
     else if ((eccState == index_STILL) && (!PE_ENTER.value)) state_START_ENTER();
-    else if ((eccState == index_START_EXIT) && (PE_EXIT.value)) state_FINISH_EXIT();
+    else if ((eccState == index_START_EXIT) && (PE_EXIT.value)) state_FINISH_EXIT_RELEASE_TOKEN();
     else if ((eccState == index_START_EXIT_STOP_NEW_BAG) && (PE_EXIT.value)) state_FINISH_EXIT_START_NEW_BAG();
     else if ((eccState == index_START_EXIT) && (!PE_ENTER.value)) state_START_EXIT_STOP_NEW_BAG();
   }
@@ -228,7 +227,7 @@ public CENTRALConCTL(){
   }
 /** Services the TOK_GIVEN event. */
   public void service_TOK_GIVEN(){
-    if ((eccState == index_START_ENTER)) state_TOK_REC();
+    if ((eccState == index_START_ENTER)) state_RECEIVED_TOKEN();
   }
   /** ALGORITHM INIT IN ST*/
 public void alg_INIT(){
