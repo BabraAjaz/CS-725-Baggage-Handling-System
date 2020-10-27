@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="centralTwoConCtl" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="Candidate" />
+        <With Var="Block" />
+        <With Var="PE_ENTER" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="Candidate" />
+        <With Var="PE_ENTER" />
+      </Event>
+      <Event Name="START" >
+        <With Var="Block" />
+      </Event>
+      <Event Name="STOP" >
+        <With Var="Block" />
+      </Event>
+      <Event Name="TOKEN_GET" >
+        <With Var="PE_EXIT" />
+        <With Var="PE_ENTER" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="REL_TOKEN" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="REQ_TOKEN" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="Block" Type="BOOL" />
+      <VarDeclaration Name="PE_ENTER" Type="BOOL" />
+      <VarDeclaration Name="PE_EXIT" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRotate1" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate2" Type="BOOL" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="FC11" Type="ConveyorCTL" x="329.41174" y="452.94116" >
+      <Parameter Name="PE" Value="0" />
+      <Parameter Name="Block" Value="0" />
+      <Parameter Name="Candidate" Value="0" />
+    </FB>
+    <FB Name="FC12" Type="CENTRALConCTL" x="1941.1764" y="317.64706" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="223.5294" />
+      <Connection Source="REQ" Destination="FC11.REQ" dx1="217.64705" />
+      <Connection Source="FC11.INITO" Destination="FC12.INIT" dx1="211.76471" />
+      <Connection Source="REQ" Destination="FC12.REQ" dx1="1829.4117" />
+      <Connection Source="STOP" Destination="FC12.CAS_STOP" dx1="1817.647" />
+      <Connection Source="START" Destination="FC12.CAS_START" dx1="1800.0" />
+      <Connection Source="TOKEN_GET" Destination="FC12.TOK_GIVEN" dx1="1717.647" />
+      <Connection Source="FC12.INITO" Destination="INITO" dx1="2741.1765" />
+      <Connection Source="FC12.CNF" Destination="CNF" dx1="2723.5293" />
+      <Connection Source="FC12.TOK_REQ" Destination="REQ_TOKEN" dx1="2835.294" />
+      <Connection Source="FC12.TOK_REL" Destination="REL_TOKEN" dx1="2829.4116" />
+      <Connection Source="FC12.STOP" Destination="FC11.CAS_STOP" dx1="82.352936" dx2="82.352936" dy="-382.35294" />
+      <Connection Source="FC12.START" Destination="FC11.CAS_START" dx1="105.882355" dx2="105.882355" dy="-523.5294" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1135.2941" />
+      <Connection Source="PE_ENTER" Destination="FC12.PE_ENTER" dx1="1747.0588" />
+      <Connection Source="Block" Destination="FC12.Block" dx1="1811.7646" />
+      <Connection Source="Candidate" Destination="FC12.Candidate" dx1="1747.0588" />
+      <Connection Source="PE_EXIT" Destination="FC12.PE_EXIT" dx1="1776.4706" />
+      <Connection Source="FC12.MotoRotate" Destination="MotoRotate2" dx1="2852.9412" />
+      <Connection Source="FC12.BlockCon" Destination="BlockCon" dx1="2800.0" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>
