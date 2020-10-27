@@ -268,13 +268,9 @@ MotoRotate.value=false;
   /** ALGORITHM DISCARD IN Java*/
 public void alg_DISCARD(){
 Token.value = false;
-System.out.println("Token is being used by Conveyor 7");
-
 }
   /** ALGORITHM SEND IN Java*/
 public void alg_SEND(){
 Token.value = true;
-System.out.println("Token is sent by Conveyor 7");
-
 }
 }

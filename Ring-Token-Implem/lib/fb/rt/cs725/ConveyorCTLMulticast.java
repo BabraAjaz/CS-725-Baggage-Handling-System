@@ -37,6 +37,8 @@ public class ConveyorCTLMulticast extends FBInstance
   public BOOL lastPE = new BOOL();
 /** VAR lastBlock */
   public BOOL lastBlock = new BOOL();
+/** VAR HIGH_PRIORITY */
+  public BOOL HIGH_PRIORITY = new BOOL();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -180,7 +182,8 @@ private void state_RELEASE(){
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
-  alg_PRINT_RELEASED();
+  alg_CLOCK_INCREMENT();
+  alg_SYNC_CLK();
 }
 private static final int index_WANT = 3;
 private void state_WANT(){
@@ -189,15 +192,14 @@ private void state_WANT(){
   STOP.serviceEvent(this);
   alg_REQUEST();
   MULTI_OUT.serviceEvent(this);
-  alg_PRINT_WANT();
   CNF.serviceEvent(this);
+  alg_CLOCK_INCREMENT();
 }
 private static final int index_HELD = 4;
 private void state_HELD(){
   eccState = index_HELD;
   alg_START();
   START.serviceEvent(this);
-  alg_PRINT_HELD();
   CNF.serviceEvent(this);
 }
 private static final int index_GRANT = 5;
@@ -205,13 +207,23 @@ private void state_GRANT(){
   eccState = index_GRANT;
   alg_REPLY();
   MULTI_OUT.serviceEvent(this);
-  alg_PRINT_GRANT();
 state_RELEASE();
 }
 private static final int index_GRANT_DELAY = 6;
 private void state_GRANT_DELAY(){
   eccState = index_GRANT_DELAY;
-  alg_PRINT_TRANSITION();
+}
+private static final int index_MULTIPLE_WANT = 7;
+private void state_MULTIPLE_WANT(){
+  eccState = index_MULTIPLE_WANT;
+  alg_COMPARE();
+    if(HIGH_PRIORITY.value) state_HELD();
+}
+private static final int index_PRIORITY_HALT = 8;
+private void state_PRIORITY_HALT(){
+  eccState = index_PRIORITY_HALT;
+  alg_REQUEST();
+  MULTI_OUT.serviceEvent(this);
 }
 /** The default constructor. */
 public ConveyorCTLMulticast(){
@@ -237,6 +249,7 @@ public ConveyorCTLMulticast(){
     if ((eccState == index_RELEASE) && (!PE.value)) state_WANT();
     else if ((eccState == index_GRANT_DELAY) && (PE.value&!PE_14.value)) state_GRANT();
     else if ((eccState == index_HELD) && (PE.value&!PE_14.value)) state_RELEASE();
+    else if ((eccState == index_MULTIPLE_WANT) && (!HIGH_PRIORITY.value)) state_PRIORITY_HALT();
   }
 /** Services the CAS_STOP event. */
   public void service_CAS_STOP(){
@@ -249,14 +262,17 @@ public ConveyorCTLMulticast(){
     if ((eccState == index_WANT) && (!Access_Req.value)) state_HELD();
     else if ((eccState == index_HELD) && (Access_Req.value)) state_GRANT_DELAY();
     else if ((eccState == index_RELEASE) && (Access_Req.value)) state_GRANT();
+    else if ((eccState == index_WANT) && (Access_Req.value)) state_MULTIPLE_WANT();
+    else if ((eccState == index_PRIORITY_HALT) && (!Access_Req.value)) state_HELD();
   }
-  /** ALGORITHM INIT IN ST*/
+  /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
 MotoRotate.value=true;
 Block.value=false;
+Multi_Time_Out.value=0;
+HIGH_PRIORITY.value=false;
+Access_Req.value=false;
 
-System.out.println(this+" "+MotoRotate.value);
-System.out.println(MotoRotate.value);
 }
   /** ALGORITHM REQ IN ST*/
 public void alg_REQ(){
@@ -291,26 +307,20 @@ lastBlock.value=Block.value;
   /** ALGORITHM START IN ST*/
 public void alg_START(){
 MotoRotate.value=true;
-System.out.println(this+" Start "+MotoRotate.value);
-
-System.out.println("Start "+MotoRotate.value);
 }
   /** ALGORITHM STOP IN ST*/
 public void alg_STOP(){
 MotoRotate.value=false;
-System.out.println(this+" Stop "+MotoRotate.value);
-
-System.out.println("Stop "+MotoRotate.value);
 }
   /** ALGORITHM REQUEST IN Java*/
 public void alg_REQUEST(){
-System.out.println("----------REQUEST----------");
+//System.out.println("----------REQUEST----------");
 Access_Req_Out.value = true;
 
 }
   /** ALGORITHM REPLY IN Java*/
 public void alg_REPLY(){
-System.out.println("----------REPLY----------");
+//System.out.println("----------REPLY----------");
 Access_Req_Out.value = false;
 
 }
@@ -337,6 +347,33 @@ System.out.println(this+"----------HELD STATE----------");
   /** ALGORITHM PRINT_TRANSITION IN Java*/
 public void alg_PRINT_TRANSITION(){
 System.out.println(this+"----------GRANT DELAY STATE----------");
+
+}
+  /** ALGORITHM CLOCK_INCREMENT IN Java*/
+public void alg_CLOCK_INCREMENT(){
+Multi_Time_Out.value=Multi_Time_Out.value++;
+
+}
+  /** ALGORITHM SYNC_CLK IN Java*/
+public void alg_SYNC_CLK(){
+if (Multi_Time_In.value>Multi_Time_Out.value){
+Multi_Time_Out.value=Multi_Time_In.value;
+}
+
+}
+  /** ALGORITHM COMPARE IN Java*/
+public void alg_COMPARE(){
+if (Multi_Time_In.value < Multi_Time_Out.value){
+HIGH_PRIORITY.value = false;
+} else if (Multi_Time_In.value > Multi_Time_Out.value){
+HIGH_PRIORITY.value = true;
+} else {
+if (Multi_ID.value < Multi_ID_Out.value){
+HIGH_PRIORITY.value = true;
+} else {
+HIGH_PRIORITY.value = false;
+}
+}
 
 }
 }

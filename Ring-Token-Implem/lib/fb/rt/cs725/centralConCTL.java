@@ -155,6 +155,7 @@ private void state_TOK_REC(){
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
+  alg_PRINT_USING_CS();
 }
 private static final int index_NEW_BAG = 4;
 private void state_NEW_BAG(){
@@ -162,6 +163,7 @@ private void state_NEW_BAG(){
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
+  alg_PRINT_WAITING();
 }
 private static final int index_FINISHED_ENTER = 5;
 private void state_FINISHED_ENTER(){
@@ -234,9 +236,6 @@ public centralConCTL(){
 public void alg_INIT(){
 MotoRotate.value=true;
 Block.value=false;
-
-System.out.println(this+" "+MotoRotate.value);
-System.out.println(MotoRotate.value);
 }
   /** ALGORITHM REQ IN ST*/
 public void alg_REQ(){
@@ -271,15 +270,19 @@ lastBlock.value=Block.value;
   /** ALGORITHM START IN ST*/
 public void alg_START(){
 MotoRotate.value=true;
-System.out.println(this+" Start "+MotoRotate.value);
-
-System.out.println("Start "+MotoRotate.value);
 }
   /** ALGORITHM STOP IN ST*/
 public void alg_STOP(){
 MotoRotate.value=false;
-System.out.println(this+" Stop "+MotoRotate.value);
+}
+  /** ALGORITHM PRINT_WAITING IN Java*/
+public void alg_PRINT_WAITING(){
+System.out.println("----BAG WAITING IN QUEUE----");
 
-System.out.println("Stop "+MotoRotate.value);
+}
+  /** ALGORITHM PRINT_USING_CS IN Java*/
+public void alg_PRINT_USING_CS(){
+System.out.println("----BAG IS USING CRITICAL SECTION----");
+
 }
 }

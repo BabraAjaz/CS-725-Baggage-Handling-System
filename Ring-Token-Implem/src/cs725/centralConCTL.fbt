@@ -91,10 +91,12 @@
       <ECState Name="TOK_REC" x="1123.5294" y="1782.3529" >
         <ECAction Algorithm="START" Output="START" />
         <ECAction Output="CNF" />
+        <ECAction Algorithm="PRINT_USING_CS" />
       </ECState>
       <ECState Name="NEW_BAG" x="1135.2941" y="2747.0588" >
         <ECAction Algorithm="STOP" Output="STOP" />
         <ECAction Output="CNF" />
+        <ECAction Algorithm="PRINT_WAITING" />
       </ECState>
       <ECState Name="FINISHED_ENTER" x="1123.5294" y="2341.1765" >
       </ECState>
@@ -125,16 +127,22 @@
       <ECTransition Source="START_EXIT" Destination="START_EXIT_STOP_NEW_BAG" Condition="REQ&#38;!PE_ENTER" x="3147.0588" y="2335.2942" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
-    <ST Text="MotoRotate := TRUE;&#10;Block := FALSE;&#10;&#10;System.out.println(this + &#34; &#34; + MotoRotate);&#10;System.out.println(MotoRotate);&#10;" />
+    <ST Text="MotoRotate := TRUE;&#10;Block := FALSE;&#10;" />
   </Algorithm>
   <Algorithm Name="REQ" Comment="Normally executed algorithm" >
     <ST Text="System.out.println(this +  &#34; -> Candidate&#34; + Candidate);&#10;IF Candidate THEN&#10;IF lastPE !:= PE_ENTER THEN&#10;IF NOT PE_ENTER THEN&#10;BlockCon:= TRUE;&#10;System.out.println(&#34;BlockCon = true&#34;);&#10;ELSE&#10;BlockCon:=FALSE;&#10;System.out.println(&#34;BlockCon = false&#34;);&#10;END_IF&#10;lastPE := PE_ENTER;&#10;END_IF&#10;IF lastBlock !:= Block THEN&#10;IF Block THEN&#10;STOP.serviceEvent(this);&#10;MotoRotate := FALSE;&#10;System.out.println(&#34;Cas Stop&#34;);&#10;ELSE&#10;START.serviceEvent(this);&#10;MotoRotate := TRUE;&#10;System.out.println(&#34;Cas Start&#34;);&#10;END_IF&#10;lastBlock := Block;&#10;END_IF&#10;END_IF&#10;" />
   </Algorithm>
   <Algorithm Name="START" >
-    <ST Text="MotoRotate:=TRUE;&#10;System.out.println(this + &#34; Start &#34; + MotoRotate);&#10;&#10;System.out.println(&#34;Start &#34; + MotoRotate);&#10;" />
+    <ST Text="MotoRotate:=TRUE;&#10;" />
   </Algorithm>
   <Algorithm Name="STOP" >
-    <ST Text="MotoRotate := FALSE;&#10;System.out.println(this + &#34; Stop &#34; + MotoRotate);&#10;&#10;System.out.println(&#34;Stop &#34; + MotoRotate);&#10;" />
+    <ST Text="MotoRotate := FALSE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_WAITING" >
+    <Other Language="Java" Text="System.out.println(&#34;----BAG WAITING IN QUEUE----&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_USING_CS" >
+    <Other Language="Java" Text="System.out.println(&#34;----BAG IS USING CRITICAL SECTION----&#34;);&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

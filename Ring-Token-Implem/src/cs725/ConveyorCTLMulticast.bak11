@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ConveyorCTLMulticast" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PE" />
+        <With Var="Block" />
+        <With Var="Candidate" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PE" />
+        <With Var="Block" />
+        <With Var="Candidate" />
+      </Event>
+      <Event Name="CAS_STOP" >
+      </Event>
+      <Event Name="CAS_START" >
+      </Event>
+      <Event Name="MULTI_IN" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="STOP" >
+      </Event>
+      <Event Name="START" >
+      </Event>
+      <Event Name="MULTI_OUT" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PE" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="Block" Type="BOOL" />
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="PE_14" Type="BOOL" />
+      <VarDeclaration Name="Multi_ID" Type="INT" />
+      <VarDeclaration Name="Multi_Time_In" Type="INT" />
+      <VarDeclaration Name="Access_Req" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRotate" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+      <VarDeclaration Name="Multi_ID_Out" Type="INT" />
+      <VarDeclaration Name="Multi_Time_Out" Type="INT" />
+      <VarDeclaration Name="Access_Req_Out" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="lastPE" Type="BOOL" InitialValue="1" />
+      <VarDeclaration Name="lastBlock" Type="BOOL" InitialValue="0" />
+      <VarDeclaration Name="HIGH_PRIORITY" Type="BOOL" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="552.94116" y="429.41174" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="970.5882" y="194.11765" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="RELEASE" x="1164.7058" y="788.2353" >
+        <ECAction Algorithm="START" Output="START" />
+        <ECAction Output="CNF" />
+        <ECAction Algorithm="CLOCK_INCREMENT" />
+        <ECAction Algorithm="SYNC_CLK" />
+      </ECState>
+      <ECState Name="WANT" x="2452.9412" y="505.88235" >
+        <ECAction Algorithm="STOP" Output="STOP" />
+        <ECAction Algorithm="REQUEST" Output="MULTI_OUT" />
+        <ECAction Output="CNF" />
+        <ECAction Algorithm="CLOCK_INCREMENT" />
+      </ECState>
+      <ECState Name="HELD" x="3747.0588" y="1452.9412" >
+        <ECAction Algorithm="START" Output="START" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="GRANT" x="1141.1764" y="1911.7646" >
+        <ECAction Algorithm="REPLY" Output="MULTI_OUT" />
+      </ECState>
+      <ECState Name="GRANT_DELAY" x="2882.3528" y="2223.5293" >
+      </ECState>
+      <ECState Name="MULTIPLE_WANT" x="5588.2354" y="952.94116" >
+        <ECAction Algorithm="COMPARE" />
+      </ECState>
+      <ECState Name="PRIORITY_HALT" x="5635.294" y="1741.1764" >
+        <ECAction Algorithm="REQUEST" Output="MULTI_OUT" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="552.94116" y="194.11765" />
+      <ECTransition Source="INIT" Destination="RELEASE" Condition="1" x="817.64703" y="594.1176" />
+      <ECTransition Source="RELEASE" Destination="WANT" Condition="REQ&#38;!PE" x="1864.7058" y="435.2941" />
+      <ECTransition Source="WANT" Destination="HELD" Condition="MULTI_IN&#38;!Access_Req" x="3035.294" y="929.41174" />
+      <ECTransition Source="HELD" Destination="GRANT_DELAY" Condition="MULTI_IN&#38;Access_Req" x="3900.0" y="2788.2354" />
+      <ECTransition Source="GRANT_DELAY" Destination="GRANT" Condition="REQ&#38;PE&#38;!PE_14" x="1988.2352" y="3052.9412" />
+      <ECTransition Source="RELEASE" Destination="GRANT" Condition="MULTI_IN&#38;Access_Req" x="1182.3529" y="1741.1764" />
+      <ECTransition Source="GRANT" Destination="RELEASE" Condition="1" x="705.8823" y="1800.0" />
+      <ECTransition Source="HELD" Destination="RELEASE" Condition="REQ&#38;PE&#38;!PE_14" x="1776.4706" y="2058.8235" />
+      <ECTransition Source="WANT" Destination="MULTIPLE_WANT" Condition="MULTI_IN&#38;Access_Req" x="4517.647" y="800.0" />
+      <ECTransition Source="MULTIPLE_WANT" Destination="PRIORITY_HALT" Condition="REQ&#38;!HIGH_PRIORITY" x="5617.647" y="1470.5883" />
+      <ECTransition Source="MULTIPLE_WANT" Destination="HELD" Condition="HIGH_PRIORITY" x="4370.5884" y="1282.3529" />
+      <ECTransition Source="PRIORITY_HALT" Destination="HELD" Condition="MULTI_IN&#38;!Access_Req" x="4494.1177" y="2017.647" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="MotoRotate.value=true;&#10;Block.value=false;&#10;Multi_Time_Out.value=0;&#10;HIGH_PRIORITY.value=false;&#10;Access_Req.value=false;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <ST Text="System.out.println(this +  &#34; -> Candidate&#34; + Candidate);&#10;IF Candidate THEN&#10;IF lastPE !:= PE THEN&#10;IF NOT PE THEN&#10;BlockCon:= TRUE;&#10;System.out.println(&#34;BlockCon = true&#34;);&#10;ELSE&#10;BlockCon:=FALSE;&#10;System.out.println(&#34;BlockCon = false&#34;);&#10;END_IF&#10;lastPE := PE;&#10;END_IF&#10;IF lastBlock !:= Block THEN&#10;IF Block THEN&#10;STOP.serviceEvent(this);&#10;MotoRotate := FALSE;&#10;System.out.println(&#34;Cas Stop&#34;);&#10;ELSE&#10;START.serviceEvent(this);&#10;MotoRotate := TRUE;&#10;System.out.println(&#34;Cas Start&#34;);&#10;END_IF&#10;lastBlock := Block;&#10;END_IF&#10;END_IF&#10;" />
+  </Algorithm>
+  <Algorithm Name="START" >
+    <ST Text="MotoRotate:=TRUE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="STOP" >
+    <ST Text="MotoRotate := FALSE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQUEST" >
+    <Other Language="Java" Text="//System.out.println(&#34;----------REQUEST----------&#34;);&#10;Access_Req_Out.value = true;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REPLY" >
+    <Other Language="Java" Text="//System.out.println(&#34;----------REPLY----------&#34;);&#10;Access_Req_Out.value = false;&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_GRANT" >
+    <Other Language="Java" Text="System.out.println(this+&#34;----------GRANT STATE----------&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_RELEASED" >
+    <Other Language="Java" Text="System.out.println(this+&#34;----------RELEASED STATE----------&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_WANT" >
+    <Other Language="Java" Text="System.out.println(this+&#34;----------WANT STATE----------&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_HELD" >
+    <Other Language="Java" Text="System.out.println(this+&#34;----------HELD STATE----------&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_TRANSITION" >
+    <Other Language="Java" Text="System.out.println(this+&#34;----------GRANT DELAY STATE----------&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="CLOCK_INCREMENT" >
+    <Other Language="Java" Text="Multi_Time_Out.value=Multi_Time_Out.value++;&#10;" />
+  </Algorithm>
+  <Algorithm Name="SYNC_CLK" >
+    <Other Language="Java" Text="if (Multi_Time_In.value>Multi_Time_Out.value){&#10;Multi_Time_Out.value=Multi_Time_In.value;&#10;}&#10;" />
+  </Algorithm>
+  <Algorithm Name="COMPARE" >
+    <Other Language="Java" Text="if (Multi.Time.In.value &#60; Multi.Time.Out.value){&#10;HIGH_PRIORITY.value = false;&#10;} else if (Multi.Time.In.value > Multi.Time.Out.value){&#10;HIGH_PRIORITY.value = true;&#10;} else {&#10;if (Multi_ID.value &#60; Multi_ID_OUT.value){&#10;HIGH_PRIORITY.value = true;&#10;} else {&#10;HIGH_PRIORITY.value = false;&#10;}&#10;}&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -120,10 +120,10 @@
     <ST Text="MotoRotate := FALSE;&#10;" />
   </Algorithm>
   <Algorithm Name="DISCARD" >
-    <Other Language="Java" Text="Token.value = false;&#10;System.out.println(&#34;Token is being used by Conveyor 7&#34;);&#10;" />
+    <Other Language="Java" Text="Token.value = false;&#10;" />
   </Algorithm>
   <Algorithm Name="SEND" >
-    <Other Language="Java" Text="Token.value = true;&#10;System.out.println(&#34;Token is sent by Conveyor 7&#34;);&#10;" />
+    <Other Language="Java" Text="Token.value = true;&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>
