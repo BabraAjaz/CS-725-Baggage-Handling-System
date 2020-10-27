@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<META NAME="GENERATOR" Content="Holobloc Inc IEC 61499 FBDK">
+<META NAME="Standard" CONTENT="61499-2">
+<TITLE>FUNCTION_BLOCK RingTokenHasCTL</TITLE>
+</HEAD>
+<BODY>
+<H2 ALIGN="CENTER">FUNCTION_BLOCK RingTokenHasCTL</H2>
+<P>An instance of <A HREF="#Viewer">this function block type</A>....</P>
+<CENTER>
+<P>[<A NAME="Viewer" HREF="../../../FBViewer.html" target="_blank">Viewer Help</A>]<BR>
+<TABLE BORDER=1><TR><TD>
+<APPLET CODE="FBViewer" ARCHIVE="../../../viewer.jar"
+ WIDTH=1295 HEIGHT=570 ></APPLET></TD></TR></TABLE></P>
+<P><I>Last updated: 2020-10-26.</I>
+<BR>
+&copy;2020 Rockwell Automation. All rights reserved.
+</CENTER>
+</BODY>
+</HTML>
