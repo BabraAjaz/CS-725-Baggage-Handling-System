@@ -78,36 +78,36 @@
       <Parameter Name="Block" Value="0" />
       <Parameter Name="Candidate" Value="0" />
     </FB>
-    <FB Name="FC12" Type="ConveyorCTLMulticast" x="1888.2352" y="452.94116" >
+    <FB Name="Con11" Type="ConveyorCTLMulticast" x="1888.2352" y="452.94116" >
       <Parameter Name="Multi_ID" Value="1" />
     </FB>
     <EventConnections>
       <Connection Source="INIT" Destination="FC11.INIT" dx1="223.5294" />
       <Connection Source="REQ" Destination="FC11.REQ" dx1="217.64705" />
-      <Connection Source="FC12.INITO" Destination="INITO" dx1="2782.3528" />
-      <Connection Source="FC12.CNF" Destination="CNF" dx1="2764.7058" />
-      <Connection Source="REQ" Destination="FC12.REQ" dx1="1776.4706" />
-      <Connection Source="STOP" Destination="FC12.CAS_STOP" dx1="1764.7058" />
-      <Connection Source="START" Destination="FC12.CAS_START" dx1="1747.0588" />
-      <Connection Source="FC12.STOP" Destination="FC11.CAS_STOP" dx1="100.0" dx2="100.0" dy="-447.0588" />
-      <Connection Source="FC12.START" Destination="FC11.CAS_START" dx1="129.41176" dx2="129.41176" dy="-605.8823" />
-      <Connection Source="FC11.INITO" Destination="FC12.INIT" dx1="141.17647" />
-      <Connection Source="MULTI_IN" Destination="FC12.MULTI_IN" dx1="1705.8823" />
-      <Connection Source="FC12.MULTI_OUT" Destination="MULTI_OUT" dx1="2870.5881" />
+      <Connection Source="Con11.INITO" Destination="INITO" dx1="2782.3528" />
+      <Connection Source="Con11.CNF" Destination="CNF" dx1="2764.7058" />
+      <Connection Source="REQ" Destination="Con11.REQ" dx1="1776.4706" />
+      <Connection Source="STOP" Destination="Con11.CAS_STOP" dx1="1764.7058" />
+      <Connection Source="START" Destination="Con11.CAS_START" dx1="1747.0588" />
+      <Connection Source="Con11.STOP" Destination="FC11.CAS_STOP" dx1="100.0" dx2="100.0" dy="-447.0588" />
+      <Connection Source="Con11.START" Destination="FC11.CAS_START" dx1="129.41176" dx2="129.41176" dy="-605.8823" />
+      <Connection Source="FC11.INITO" Destination="Con11.INIT" dx1="141.17647" />
+      <Connection Source="MULTI_IN" Destination="Con11.MULTI_IN" dx1="1705.8823" />
+      <Connection Source="Con11.MULTI_OUT" Destination="MULTI_OUT" dx1="2870.5881" />
     </EventConnections>
     <DataConnections>
-      <Connection Source="Block" Destination="FC12.Block" dx1="1758.8235" />
-      <Connection Source="Candidate" Destination="FC12.Candidate" dx1="1694.1177" />
-      <Connection Source="PE" Destination="FC12.PE" dx1="1805.8823" />
-      <Connection Source="FC12.BlockCon" Destination="BlockCon" dx1="2841.1765" />
+      <Connection Source="Block" Destination="Con11.Block" dx1="1758.8235" />
+      <Connection Source="Candidate" Destination="Con11.Candidate" dx1="1694.1177" />
+      <Connection Source="PE" Destination="Con11.PE" dx1="1805.8823" />
+      <Connection Source="Con11.BlockCon" Destination="BlockCon" dx1="2841.1765" />
       <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1135.2941" />
-      <Connection Source="FC12.MotoRotate" Destination="MotoRotate2" dx1="2894.1177" />
-      <Connection Source="FC12.Multi_ID_Out" Destination="Multi_ID_Out" dx1="2894.1177" />
-      <Connection Source="FC12.Multi_Time_Out" Destination="Multi_Time_Out" dx1="2935.294" />
-      <Connection Source="FC12.Access_Req_Out" Destination="Access_Req_Out" dx1="2947.0588" />
-      <Connection Source="PE_14" Destination="FC12.PE_14" dx1="1752.9412" />
-      <Connection Source="Multi_Time_In" Destination="FC12.Multi_Time_In" dx1="1635.2941" />
-      <Connection Source="Access_Req" Destination="FC12.Access_Req" dx1="1664.7058" />
+      <Connection Source="Con11.MotoRotate" Destination="MotoRotate2" dx1="2894.1177" />
+      <Connection Source="Con11.Multi_ID_Out" Destination="Multi_ID_Out" dx1="2894.1177" />
+      <Connection Source="Con11.Multi_Time_Out" Destination="Multi_Time_Out" dx1="2935.294" />
+      <Connection Source="Con11.Access_Req_Out" Destination="Access_Req_Out" dx1="2947.0588" />
+      <Connection Source="PE_14" Destination="Con11.PE_14" dx1="1752.9412" />
+      <Connection Source="Access_Req" Destination="Con11.Access_Req" dx1="1664.7058" />
+      <Connection Source="Multi_Time_In" Destination="Con11.Multi_Time_In" dx1="1635.2941" />
     </DataConnections>
   </FBNetwork>
 </FBType>

@@ -83,10 +83,12 @@
         <ECAction Algorithm="REQUEST" Output="MULTI_OUT" />
         <ECAction Output="CNF" />
         <ECAction Algorithm="CLOCK_INCREMENT" />
+        <ECAction Algorithm="PRINT_WANT" />
       </ECState>
       <ECState Name="HELD" x="3747.0588" y="1452.9412" >
         <ECAction Algorithm="START" Output="START" />
         <ECAction Output="CNF" />
+        <ECAction Algorithm="PRINT_HELD" />
       </ECState>
       <ECState Name="GRANT" x="1141.1764" y="1911.7646" >
         <ECAction Algorithm="REPLY" Output="MULTI_OUT" />
@@ -98,6 +100,7 @@
       </ECState>
       <ECState Name="PRIORITY_HALT" x="5635.294" y="1741.1764" >
         <ECAction Algorithm="REQUEST" Output="MULTI_OUT" />
+        <ECAction Algorithm="PRINT_WANT" />
       </ECState>
       <ECTransition Source="START" Destination="INIT" Condition="INIT" x="552.94116" y="194.11765" />
       <ECTransition Source="INIT" Destination="RELEASE" Condition="1" x="817.64703" y="594.1176" />
@@ -114,7 +117,7 @@
       <ECTransition Source="PRIORITY_HALT" Destination="HELD" Condition="MULTI_IN&#38;!Access_Req" x="4494.1177" y="2017.647" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
-    <Other Language="Java" Text="MotoRotate.value=true;&#10;Block.value=false;&#10;Multi_Time_Out.value=0;&#10;HIGH_PRIORITY.value=false;&#10;Access_Req.value=false;&#10;" />
+    <Other Language="Java" Text="MotoRotate.value=true;&#10;Block.value=false;&#10;HIGH_PRIORITY.value=false;&#10;Access_Req.value=false;&#10;" />
   </Algorithm>
   <Algorithm Name="REQ" Comment="Normally executed algorithm" >
     <ST Text="System.out.println(this +  &#34; -> Candidate&#34; + Candidate);&#10;IF Candidate THEN&#10;IF lastPE !:= PE THEN&#10;IF NOT PE THEN&#10;BlockCon:= TRUE;&#10;System.out.println(&#34;BlockCon = true&#34;);&#10;ELSE&#10;BlockCon:=FALSE;&#10;System.out.println(&#34;BlockCon = false&#34;);&#10;END_IF&#10;lastPE := PE;&#10;END_IF&#10;IF lastBlock !:= Block THEN&#10;IF Block THEN&#10;STOP.serviceEvent(this);&#10;MotoRotate := FALSE;&#10;System.out.println(&#34;Cas Stop&#34;);&#10;ELSE&#10;START.serviceEvent(this);&#10;MotoRotate := TRUE;&#10;System.out.println(&#34;Cas Start&#34;);&#10;END_IF&#10;lastBlock := Block;&#10;END_IF&#10;END_IF&#10;" />
@@ -138,13 +141,10 @@
     <Other Language="Java" Text="System.out.println(this+&#34;----------RELEASED STATE----------&#34;);&#10;" />
   </Algorithm>
   <Algorithm Name="PRINT_WANT" >
-    <Other Language="Java" Text="System.out.println(this+&#34;----------WANT STATE----------&#34;);&#10;" />
+    <Other Language="Java" Text="System.out.println(this+&#34; is multicasting.&#34;);&#10;" />
   </Algorithm>
   <Algorithm Name="PRINT_HELD" >
-    <Other Language="Java" Text="System.out.println(this+&#34;----------HELD STATE----------&#34;);&#10;" />
-  </Algorithm>
-  <Algorithm Name="PRINT_TRANSITION" >
-    <Other Language="Java" Text="System.out.println(this+&#34;----------GRANT DELAY STATE----------&#34;);&#10;" />
+    <Other Language="Java" Text="System.out.println(this+&#34; is accessing critical section.&#34;);&#10;" />
   </Algorithm>
   <Algorithm Name="CLOCK_INCREMENT" >
     <Other Language="Java" Text="Multi_Time_Out.value=Multi_Time_Out.value++;&#10;" />
@@ -153,7 +153,7 @@
     <Other Language="Java" Text="if (Multi_Time_In.value>Multi_Time_Out.value){&#10;Multi_Time_Out.value=Multi_Time_In.value;&#10;}&#10;" />
   </Algorithm>
   <Algorithm Name="COMPARE" >
-    <Other Language="Java" Text="if (Multi_Time_In.value &#60; Multi_Time_Out.value){&#10;HIGH_PRIORITY.value = false;&#10;} else if (Multi_Time_In.value > Multi_Time_Out.value){&#10;HIGH_PRIORITY.value = true;&#10;} else {&#10;if (Multi_ID.value &#60; Multi_ID_Out.value){&#10;HIGH_PRIORITY.value = true;&#10;} else {&#10;HIGH_PRIORITY.value = false;&#10;}&#10;}&#10;" />
+    <Other Language="Java" Text="if (Multi_Time_In.value &#60; Multi_Time_Out.value){&#10;HIGH_PRIORITY.value = true;&#10;} else if (Multi_Time_In.value > Multi_Time_Out.value){&#10;HIGH_PRIORITY.value = false;&#10;} else {&#10;if (Multi_ID.value &#60; Multi_ID_Out.value){&#10;HIGH_PRIORITY.value = true;&#10;} else {&#10;HIGH_PRIORITY.value = false;&#10;}&#10;}&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

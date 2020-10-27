@@ -119,7 +119,7 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_Candidate(BOOL newIV) throws FBRManagementException{
     Candidate = newIV;
-    FC12.connectIVNoException("Candidate",Candidate);
+    Con11.connectIVNoException("Candidate",Candidate);
     }
 /** Connect the given variable to the input variable Block
   * @param newIV The variable to connect
@@ -127,7 +127,7 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_Block(BOOL newIV) throws FBRManagementException{
     Block = newIV;
-    FC12.connectIVNoException("Block",Block);
+    Con11.connectIVNoException("Block",Block);
     }
 /** Connect the given variable to the input variable PE
   * @param newIV The variable to connect
@@ -135,7 +135,7 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
-    FC12.connectIVNoException("PE",PE);
+    Con11.connectIVNoException("PE",PE);
     }
 /** Connect the given variable to the input variable PE_14
   * @param newIV The variable to connect
@@ -143,7 +143,7 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_PE_14(BOOL newIV) throws FBRManagementException{
     PE_14 = newIV;
-    FC12.connectIVNoException("PE_14",PE_14);
+    Con11.connectIVNoException("PE_14",PE_14);
     }
 /** Connect the given variable to the input variable Multi_ID
   * @param newIV The variable to connect
@@ -157,7 +157,7 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_Multi_Time_In(INT newIV) throws FBRManagementException{
     Multi_Time_In = newIV;
-    FC12.connectIVNoException("Multi_Time_In",Multi_Time_In);
+    Con11.connectIVNoException("Multi_Time_In",Multi_Time_In);
     }
 /** Connect the given variable to the input variable Access_Req
   * @param newIV The variable to connect
@@ -165,43 +165,43 @@ public class TwoConMultiCTL extends FBInstance
  */
   public void connect_Access_Req(BOOL newIV) throws FBRManagementException{
     Access_Req = newIV;
-    FC12.connectIVNoException("Access_Req",Access_Req);
+    Con11.connectIVNoException("Access_Req",Access_Req);
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
-/** FB FC12 */
-  protected ConveyorCTLMulticast FC12 = new ConveyorCTLMulticast() ;
+/** FB Con11 */
+  protected ConveyorCTLMulticast Con11 = new ConveyorCTLMulticast() ;
 /** The default constructor. */
 public TwoConMultiCTL(){
     super();
     INIT.connectTo(FC11.INIT);
     REQ.connectTo(FC11.REQ);
-    FC12.INITO.connectTo(INITO);
-    FC12.CNF.connectTo(CNF);
-    REQ.connectTo(FC12.REQ);
-    STOP.connectTo(FC12.CAS_STOP);
-    START.connectTo(FC12.CAS_START);
-    FC12.STOP.connectTo(FC11.CAS_STOP);
-    FC12.START.connectTo(FC11.CAS_START);
-    FC11.INITO.connectTo(FC12.INIT);
-    MULTI_IN.connectTo(FC12.MULTI_IN);
-    FC12.MULTI_OUT.connectTo(MULTI_OUT);
-    FC12.connectIVNoException("Block",Block);
-    FC12.connectIVNoException("Candidate",Candidate);
-    FC12.connectIVNoException("PE",PE);
-    BlockCon = (BOOL)FC12.ovNamedNoException("BlockCon");
+    Con11.INITO.connectTo(INITO);
+    Con11.CNF.connectTo(CNF);
+    REQ.connectTo(Con11.REQ);
+    STOP.connectTo(Con11.CAS_STOP);
+    START.connectTo(Con11.CAS_START);
+    Con11.STOP.connectTo(FC11.CAS_STOP);
+    Con11.START.connectTo(FC11.CAS_START);
+    FC11.INITO.connectTo(Con11.INIT);
+    MULTI_IN.connectTo(Con11.MULTI_IN);
+    Con11.MULTI_OUT.connectTo(MULTI_OUT);
+    Con11.connectIVNoException("Block",Block);
+    Con11.connectIVNoException("Candidate",Candidate);
+    Con11.connectIVNoException("PE",PE);
+    BlockCon = (BOOL)Con11.ovNamedNoException("BlockCon");
     MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
-    MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
-    Multi_ID_Out = (INT)FC12.ovNamedNoException("Multi_ID_Out");
-    Multi_Time_Out = (INT)FC12.ovNamedNoException("Multi_Time_Out");
-    Access_Req_Out = (BOOL)FC12.ovNamedNoException("Access_Req_Out");
-    FC12.connectIVNoException("PE_14",PE_14);
-    FC12.connectIVNoException("Multi_Time_In",Multi_Time_In);
-    FC12.connectIVNoException("Access_Req",Access_Req);
+    MotoRotate2 = (BOOL)Con11.ovNamedNoException("MotoRotate");
+    Multi_ID_Out = (INT)Con11.ovNamedNoException("Multi_ID_Out");
+    Multi_Time_Out = (INT)Con11.ovNamedNoException("Multi_Time_Out");
+    Access_Req_Out = (BOOL)Con11.ovNamedNoException("Access_Req_Out");
+    Con11.connectIVNoException("PE_14",PE_14);
+    Con11.connectIVNoException("Access_Req",Access_Req);
+    Con11.connectIVNoException("Multi_Time_In",Multi_Time_In);
     FC11.PE.initializeNoException("0");
     FC11.Block.initializeNoException("0");
     FC11.Candidate.initializeNoException("0");
-    FC12.Multi_ID.initializeNoException("1");
+    Con11.Multi_ID.initializeNoException("1");
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
@@ -211,16 +211,16 @@ public TwoConMultiCTL(){
   throws FBRManagementException{
     super.initialize(fbName,r);
     FC11.initialize("FC11",r);
-    FC12.initialize("FC12",r);
+    Con11.initialize("Con11",r);
 }
 /** Start the FB instances. */
 public void start( ){
   FC11.start();
-  FC12.start();
+  Con11.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
   FC11.stop();
-  FC12.stop();
+  Con11.stop();
 }
 }

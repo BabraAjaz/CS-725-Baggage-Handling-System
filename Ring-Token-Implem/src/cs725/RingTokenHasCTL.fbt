@@ -85,7 +85,8 @@
         <ECAction Algorithm="START" Output="START" />
         <ECAction Output="CNF" />
       </ECState>
-      <ECState Name="CRITICAL_SECTION_Dept" x="900.0" y="3370.5881" >
+      <ECState Name="CRITICAL_SECTION_Dept" x="888.2353" y="3358.8235" >
+        <ECAction Algorithm="PRINT_USING" />
       </ECState>
       <ECState Name="CS_FROZEN" x="4435.294" y="3035.294" >
         <ECAction Algorithm="STOP" Output="STOP" />
@@ -94,14 +95,15 @@
       <ECState Name="WANT" x="2794.1177" y="2358.8235" >
         <ECAction Algorithm="STOP" Output="STOP" />
         <ECAction Output="CNF" />
+        <ECAction Algorithm="PRINT_WAITING" />
       </ECState>
       <ECTransition Source="TOKEN" Destination="NO_TOKEN" Condition="REQ&#38;PE" x="3841.1765" y="688.2353" />
       <ECTransition Source="NO_TOKEN" Destination="TOKEN" Condition="TokenUpdateIN&#38;TokenIN" x="2741.1765" y="1388.2352" />
       <ECTransition Source="TOKEN" Destination="INIT" Condition="INIT" x="982.3529" y="688.2353" />
       <ECTransition Source="TOKEN" Destination="CRITICAL_SECTION" Condition="REQ&#38;!PE" x="1517.647" y="1676.4706" />
-      <ECTransition Source="CRITICAL_SECTION" Destination="CRITICAL_SECTION_Dept" Condition="REQ&#38;PE" x="900.0" y="1988.2352" />
-      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="CS_FROZEN" Condition="REQ&#38;!PE" x="4435.294" y="3370.5881" />
-      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="NO_TOKEN" Condition="REQ&#38;!PE13" x="3841.1765" y="2911.7646" />
+      <ECTransition Source="CRITICAL_SECTION" Destination="CRITICAL_SECTION_Dept" Condition="REQ&#38;PE" x="888.2353" y="1976.4706" />
+      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="CS_FROZEN" Condition="REQ&#38;!PE" x="4423.5293" y="3358.8235" />
+      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="NO_TOKEN" Condition="REQ&#38;!PE13" x="3829.4116" y="2900.0" />
       <ECTransition Source="CS_FROZEN" Destination="NO_TOKEN" Condition="REQ&#38;!PE13" x="4435.294" y="2505.8823" />
       <ECTransition Source="WANT" Destination="CRITICAL_SECTION" Condition="TokenUpdateIN&#38;TokenIN" x="1517.647" y="2358.8235" />
       <ECTransition Source="NO_TOKEN" Destination="WANT" Condition="REQ&#38;!PE" x="2794.1177" y="2058.8235" />
@@ -124,6 +126,12 @@
   </Algorithm>
   <Algorithm Name="SEND" >
     <Other Language="Java" Text="Token.value = true;&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_WAITING" >
+    <Other Language="Java" Text="System.out.println(this+&#34;is waiting for Ring Token&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_USING" >
+    <Other Language="Java" Text="System.out.println(this+&#34;is using Ring Token&#34;);&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

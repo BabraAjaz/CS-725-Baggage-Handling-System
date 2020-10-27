@@ -171,6 +171,7 @@ private void state_CRITICAL_SECTION(){
 private static final int index_CRITICAL_SECTION_Dept = 4;
 private void state_CRITICAL_SECTION_Dept(){
   eccState = index_CRITICAL_SECTION_Dept;
+  alg_PRINT_USING();
 }
 private static final int index_CS_FROZEN = 5;
 private void state_CS_FROZEN(){
@@ -185,6 +186,7 @@ private void state_WANT(){
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
+  alg_PRINT_WAITING();
 }
 /** The default constructor. */
 public RingTokenHasCTL(){
@@ -273,6 +275,16 @@ Token.value = false;
   /** ALGORITHM SEND IN Java*/
 public void alg_SEND(){
 Token.value = true;
+
+}
+  /** ALGORITHM PRINT_WAITING IN Java*/
+public void alg_PRINT_WAITING(){
+System.out.println(this+"is waiting for Ring Token");
+
+}
+  /** ALGORITHM PRINT_USING IN Java*/
+public void alg_PRINT_USING(){
+System.out.println(this+"is using Ring Token");
 
 }
 }

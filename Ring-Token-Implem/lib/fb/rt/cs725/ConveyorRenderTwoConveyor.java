@@ -1,11 +1,11 @@
-/* Copyright (c)2013 Rockwell Automation. All rights reserved. */
+/* Copyright (c)2020 Rockwell Automation. All rights reserved. */
 package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ConveyorRenderTwoConveyor
   * @author JHC
-  * @version 20130429/JHC
+  * @version 20201027/JHC
   */
 public class ConveyorRenderTwoConveyor extends FBInstance
 {
@@ -662,7 +662,6 @@ public ConveyorRenderTwoConveyor(){
   }
   /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
-System.out.println("View Initialised");
 Bag1X.value=6000;
 Bag1Y.value=6000;
 Bag2X.value=6000;
@@ -882,14 +881,12 @@ index.value++;
     }
     if(((DINT)C5BagOutX1.value[i]).value != 0)
     {
-	System.out.println("X1 is" + C5BagOutX1.value[i]);
         ((BagDetail)bagDetail.value[index.value]).conId.value=4;
 ((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc2Offset1.value-((DINT)C5BagOutX1.value[i]).value;   
 index.value++;
     } 
     if(((DINT)C5BagOutX2.value[i]).value != 0)
     {
-	System.out.println("X2 is" + C5BagOutX1.value[i]);
         ((BagDetail)bagDetail.value[index.value]).conId.value=4;
 ((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc2Offset2.value-((DINT)C5BagOutX2.value[i]).value;   
 index.value++;
@@ -1160,7 +1157,6 @@ C11Rot.value = "/fb/rt/cs725/FCU.gif";
 else
 C11Rot.value = "/fb/rt/cs725/FCU.png";
 
-//System.out.println(C1BagOutPE1.value);
 }
   /** ALGORITHM BAGIN IN Java*/
 public void alg_BAGIN(){

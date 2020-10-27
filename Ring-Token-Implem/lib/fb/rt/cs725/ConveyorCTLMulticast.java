@@ -194,6 +194,7 @@ private void state_WANT(){
   MULTI_OUT.serviceEvent(this);
   CNF.serviceEvent(this);
   alg_CLOCK_INCREMENT();
+  alg_PRINT_WANT();
 }
 private static final int index_HELD = 4;
 private void state_HELD(){
@@ -201,6 +202,7 @@ private void state_HELD(){
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
+  alg_PRINT_HELD();
 }
 private static final int index_GRANT = 5;
 private void state_GRANT(){
@@ -224,6 +226,7 @@ private void state_PRIORITY_HALT(){
   eccState = index_PRIORITY_HALT;
   alg_REQUEST();
   MULTI_OUT.serviceEvent(this);
+  alg_PRINT_WANT();
 }
 /** The default constructor. */
 public ConveyorCTLMulticast(){
@@ -269,7 +272,6 @@ public ConveyorCTLMulticast(){
 public void alg_INIT(){
 MotoRotate.value=true;
 Block.value=false;
-Multi_Time_Out.value=0;
 HIGH_PRIORITY.value=false;
 Access_Req.value=false;
 
@@ -336,17 +338,12 @@ System.out.println(this+"----------RELEASED STATE----------");
 }
   /** ALGORITHM PRINT_WANT IN Java*/
 public void alg_PRINT_WANT(){
-System.out.println(this+"----------WANT STATE----------");
+System.out.println(this+" is multicasting.");
 
 }
   /** ALGORITHM PRINT_HELD IN Java*/
 public void alg_PRINT_HELD(){
-System.out.println(this+"----------HELD STATE----------");
-
-}
-  /** ALGORITHM PRINT_TRANSITION IN Java*/
-public void alg_PRINT_TRANSITION(){
-System.out.println(this+"----------GRANT DELAY STATE----------");
+System.out.println(this+" is accessing critical section.");
 
 }
   /** ALGORITHM CLOCK_INCREMENT IN Java*/
@@ -364,9 +361,9 @@ Multi_Time_Out.value=Multi_Time_In.value;
   /** ALGORITHM COMPARE IN Java*/
 public void alg_COMPARE(){
 if (Multi_Time_In.value < Multi_Time_Out.value){
-HIGH_PRIORITY.value = false;
-} else if (Multi_Time_In.value > Multi_Time_Out.value){
 HIGH_PRIORITY.value = true;
+} else if (Multi_Time_In.value > Multi_Time_Out.value){
+HIGH_PRIORITY.value = false;
 } else {
 if (Multi_ID.value < Multi_ID_Out.value){
 HIGH_PRIORITY.value = true;

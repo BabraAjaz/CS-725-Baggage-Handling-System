@@ -105,7 +105,7 @@ public class TwoConRingCTL extends FBInstance
  */
   public void connect_Candidate(BOOL newIV) throws FBRManagementException{
     Candidate = newIV;
-    FC12.connectIVNoException("Candidate",Candidate);
+    Con4.connectIVNoException("Candidate",Candidate);
     }
 /** Connect the given variable to the input variable Block
   * @param newIV The variable to connect
@@ -113,7 +113,7 @@ public class TwoConRingCTL extends FBInstance
  */
   public void connect_Block(BOOL newIV) throws FBRManagementException{
     Block = newIV;
-    FC12.connectIVNoException("Block",Block);
+    Con4.connectIVNoException("Block",Block);
     }
 /** Connect the given variable to the input variable PE
   * @param newIV The variable to connect
@@ -121,7 +121,7 @@ public class TwoConRingCTL extends FBInstance
  */
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
-    FC12.connectIVNoException("PE",PE);
+    Con4.connectIVNoException("PE",PE);
     }
 /** Connect the given variable to the input variable TokenIN
   * @param newIV The variable to connect
@@ -129,7 +129,7 @@ public class TwoConRingCTL extends FBInstance
  */
   public void connect_TokenIN(BOOL newIV) throws FBRManagementException{
     TokenIN = newIV;
-    FC12.connectIVNoException("TokenIN",TokenIN);
+    Con4.connectIVNoException("TokenIN",TokenIN);
     }
 /** Connect the given variable to the input variable PE13
   * @param newIV The variable to connect
@@ -137,36 +137,36 @@ public class TwoConRingCTL extends FBInstance
  */
   public void connect_PE13(BOOL newIV) throws FBRManagementException{
     PE13 = newIV;
-    FC12.connectIVNoException("PE13",PE13);
+    Con4.connectIVNoException("PE13",PE13);
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
-/** FB FC12 */
-  protected RingTokenHasCTL FC12 = new RingTokenHasCTL() ;
+/** FB Con4 */
+  protected RingTokenHasCTL Con4 = new RingTokenHasCTL() ;
 /** The default constructor. */
 public TwoConRingCTL(){
     super();
     INIT.connectTo(FC11.INIT);
     REQ.connectTo(FC11.REQ);
-    FC12.INITO.connectTo(INITO);
-    FC12.CNF.connectTo(CNF);
-    REQ.connectTo(FC12.REQ);
-    STOP.connectTo(FC12.CAS_STOP);
-    START.connectTo(FC12.CAS_START);
-    FC12.STOP.connectTo(FC11.CAS_STOP);
-    FC12.START.connectTo(FC11.CAS_START);
-    FC11.INITO.connectTo(FC12.INIT);
-    FC12.TokenUpdate.connectTo(TokenUpdate);
-    TokenUpdateIN.connectTo(FC12.TokenUpdateIN);
-    FC12.connectIVNoException("Block",Block);
-    FC12.connectIVNoException("Candidate",Candidate);
-    FC12.connectIVNoException("PE",PE);
-    BlockCon = (BOOL)FC12.ovNamedNoException("BlockCon");
+    Con4.INITO.connectTo(INITO);
+    Con4.CNF.connectTo(CNF);
+    REQ.connectTo(Con4.REQ);
+    STOP.connectTo(Con4.CAS_STOP);
+    START.connectTo(Con4.CAS_START);
+    Con4.STOP.connectTo(FC11.CAS_STOP);
+    Con4.START.connectTo(FC11.CAS_START);
+    FC11.INITO.connectTo(Con4.INIT);
+    Con4.TokenUpdate.connectTo(TokenUpdate);
+    TokenUpdateIN.connectTo(Con4.TokenUpdateIN);
+    Con4.connectIVNoException("Block",Block);
+    Con4.connectIVNoException("Candidate",Candidate);
+    Con4.connectIVNoException("PE",PE);
+    BlockCon = (BOOL)Con4.ovNamedNoException("BlockCon");
     MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
-    MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
-    FC12.connectIVNoException("PE13",PE13);
-    FC12.connectIVNoException("TokenIN",TokenIN);
-    Token = (BOOL)FC12.ovNamedNoException("Token");
+    MotoRotate2 = (BOOL)Con4.ovNamedNoException("MotoRotate");
+    Con4.connectIVNoException("PE13",PE13);
+    Con4.connectIVNoException("TokenIN",TokenIN);
+    Token = (BOOL)Con4.ovNamedNoException("Token");
     FC11.PE.initializeNoException("0");
     FC11.Block.initializeNoException("0");
     FC11.Candidate.initializeNoException("0");
@@ -179,16 +179,16 @@ public TwoConRingCTL(){
   throws FBRManagementException{
     super.initialize(fbName,r);
     FC11.initialize("FC11",r);
-    FC12.initialize("FC12",r);
+    Con4.initialize("Con4",r);
 }
 /** Start the FB instances. */
 public void start( ){
   FC11.start();
-  FC12.start();
+  Con4.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
   FC11.stop();
-  FC12.stop();
+  Con4.stop();
 }
 }

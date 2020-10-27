@@ -148,6 +148,7 @@ private void state_START_ENTER(){
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
   TOK_REQ.serviceEvent(this);
+  alg_PRINT_WAITING();
 }
 private static final int index_TOK_REC = 3;
 private void state_TOK_REC(){
@@ -155,7 +156,6 @@ private void state_TOK_REC(){
   alg_START();
   START.serviceEvent(this);
   CNF.serviceEvent(this);
-  alg_PRINT_USING_CS();
 }
 private static final int index_NEW_BAG = 4;
 private void state_NEW_BAG(){
@@ -163,11 +163,11 @@ private void state_NEW_BAG(){
   alg_STOP();
   STOP.serviceEvent(this);
   CNF.serviceEvent(this);
-  alg_PRINT_WAITING();
 }
 private static final int index_FINISHED_ENTER = 5;
 private void state_FINISHED_ENTER(){
   eccState = index_FINISHED_ENTER;
+  alg_PRINT_USING_CS();
 }
 private static final int index_START_EXIT = 6;
 private void state_START_EXIT(){
@@ -277,12 +277,12 @@ MotoRotate.value=false;
 }
   /** ALGORITHM PRINT_WAITING IN Java*/
 public void alg_PRINT_WAITING(){
-System.out.println("----BAG WAITING IN QUEUE----");
+System.out.println("Bag from "+this+" in queue");
 
 }
   /** ALGORITHM PRINT_USING_CS IN Java*/
 public void alg_PRINT_USING_CS(){
-System.out.println("----BAG IS USING CRITICAL SECTION----");
+System.out.println("Bag from " +this + " holds token");
 
 }
 }

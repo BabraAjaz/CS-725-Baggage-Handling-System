@@ -143,7 +143,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_Candidate(BOOL newIV) throws FBRManagementException{
     Candidate = newIV;
-    FC11.connectIVNoException("Candidate",Candidate);
+    Con7.connectIVNoException("Candidate",Candidate);
     }
 /** Connect the given variable to the input variable Block
   * @param newIV The variable to connect
@@ -151,7 +151,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_Block(BOOL newIV) throws FBRManagementException{
     Block = newIV;
-    FC11.connectIVNoException("Block",Block);
+    Con7.connectIVNoException("Block",Block);
     }
 /** Connect the given variable to the input variable PE
   * @param newIV The variable to connect
@@ -159,7 +159,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
-    FC11.connectIVNoException("PE",PE);
+    Con7.connectIVNoException("PE",PE);
     }
 /** Connect the given variable to the input variable PE13
   * @param newIV The variable to connect
@@ -167,7 +167,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_PE13(BOOL newIV) throws FBRManagementException{
     PE13 = newIV;
-    FC11.connectIVNoException("PE13",PE13);
+    Con7.connectIVNoException("PE13",PE13);
     }
 /** Connect the given variable to the input variable TokenIn
   * @param newIV The variable to connect
@@ -175,7 +175,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_TokenIn(BOOL newIV) throws FBRManagementException{
     TokenIn = newIV;
-    FC11.connectIVNoException("TokenIN",TokenIn);
+    Con7.connectIVNoException("TokenIN",TokenIn);
     }
 /** Connect the given variable to the input variable PE_14
   * @param newIV The variable to connect
@@ -183,7 +183,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_PE_14(BOOL newIV) throws FBRManagementException{
     PE_14 = newIV;
-    FC12.connectIVNoException("PE_14",PE_14);
+    Con8.connectIVNoException("PE_14",PE_14);
     }
 /** Connect the given variable to the input variable PE_8
   * @param newIV The variable to connect
@@ -191,7 +191,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_PE_8(BOOL newIV) throws FBRManagementException{
     PE_8 = newIV;
-    FC12.connectIVNoException("PE",PE_8);
+    Con8.connectIVNoException("PE",PE_8);
     }
 /** Connect the given variable to the input variable Multi_ID
   * @param newIV The variable to connect
@@ -205,7 +205,7 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_Multi_Time_In(INT newIV) throws FBRManagementException{
     Multi_Time_In = newIV;
-    FC12.connectIVNoException("Multi_Time_In",Multi_Time_In);
+    Con8.connectIVNoException("Multi_Time_In",Multi_Time_In);
     }
 /** Connect the given variable to the input variable Access_Req
   * @param newIV The variable to connect
@@ -213,57 +213,57 @@ public class ThreeConCtl extends FBInstance
  */
   public void connect_Access_Req(BOOL newIV) throws FBRManagementException{
     Access_Req = newIV;
-    FC12.connectIVNoException("Access_Req",Access_Req);
+    Con8.connectIVNoException("Access_Req",Access_Req);
     }
-/** FB FC11 */
-  protected RingTokenHasnotCTL FC11 = new RingTokenHasnotCTL() ;
-/** FB FC12 */
-  protected ConveyorCTLMulticast FC12 = new ConveyorCTLMulticast() ;
+/** FB Con7 */
+  protected RingTokenHasnotCTL Con7 = new RingTokenHasnotCTL() ;
+/** FB Con8 */
+  protected ConveyorCTLMulticast Con8 = new ConveyorCTLMulticast() ;
 /** FB FC13 */
   protected ConveyorCTL FC13 = new ConveyorCTL() ;
 /** The default constructor. */
 public ThreeConCtl(){
     super();
-    INIT.connectTo(FC11.INIT);
-    REQ.connectTo(FC11.REQ);
-    FC11.INITO.connectTo(FC12.INIT);
-    FC12.INITO.connectTo(FC13.INIT);
+    INIT.connectTo(Con7.INIT);
+    REQ.connectTo(Con7.REQ);
+    Con7.INITO.connectTo(Con8.INIT);
+    Con8.INITO.connectTo(FC13.INIT);
     FC13.INITO.connectTo(INITO);
     FC13.CNF.connectTo(CNF);
-    REQ.connectTo(FC12.REQ);
+    REQ.connectTo(Con8.REQ);
     REQ.connectTo(FC13.REQ);
-    FC11.CNF.connectTo(CNF);
-    FC12.CNF.connectTo(CNF);
-    TokenUpdateIn.connectTo(FC11.TokenUpdateIN);
-    FC11.TokenUpdate.connectTo(TokenUpdate);
-    MULTI_IN.connectTo(FC12.MULTI_IN);
-    FC12.MULTI_OUT.connectTo(MULTI_OUT);
-    FC13.START.connectTo(FC12.CAS_START);
-    FC13.STOP.connectTo(FC12.CAS_STOP);
-    FC12.START.connectTo(FC11.CAS_START);
-    FC12.STOP.connectTo(FC11.CAS_STOP);
-    FC11.STOP.connectTo(STOP);
-    FC11.START.connectTo(START);
+    Con7.CNF.connectTo(CNF);
+    Con8.CNF.connectTo(CNF);
+    TokenUpdateIn.connectTo(Con7.TokenUpdateIN);
+    Con7.TokenUpdate.connectTo(TokenUpdate);
+    MULTI_IN.connectTo(Con8.MULTI_IN);
+    Con8.MULTI_OUT.connectTo(MULTI_OUT);
+    FC13.START.connectTo(Con8.CAS_START);
+    FC13.STOP.connectTo(Con8.CAS_STOP);
+    Con8.START.connectTo(Con7.CAS_START);
+    Con8.STOP.connectTo(Con7.CAS_STOP);
+    Con7.STOP.connectTo(STOP);
+    Con7.START.connectTo(START);
     MotoRotate3 = (BOOL)FC13.ovNamedNoException("MotoRotate");
-    MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
-    MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
-    FC11.connectIVNoException("PE",PE);
-    FC11.connectIVNoException("Block",Block);
-    BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
-    FC11.connectIVNoException("Candidate",Candidate);
-    FC11.connectIVNoException("PE13",PE13);
-    FC11.connectIVNoException("TokenIN",TokenIn);
-    Token = (BOOL)FC11.ovNamedNoException("Token");
-    FC12.connectIVNoException("PE",PE_8);
-    Multi_ID_Out = (INT)FC12.ovNamedNoException("Multi_ID_Out");
-    Multi_Time_Out = (INT)FC12.ovNamedNoException("Multi_Time_Out");
-    Access_Req_Out = (BOOL)FC12.ovNamedNoException("Access_Req_Out");
-    FC12.connectIVNoException("PE_14",PE_14);
-    FC12.connectIVNoException("Multi_Time_In",Multi_Time_In);
-    FC12.connectIVNoException("Access_Req",Access_Req);
-    FC12.Block.initializeNoException("0");
-    FC12.Candidate.initializeNoException("0");
-    FC12.Multi_ID.initializeNoException("0");
+    MotoRotate2 = (BOOL)Con8.ovNamedNoException("MotoRotate");
+    MotoRotate1 = (BOOL)Con7.ovNamedNoException("MotoRotate");
+    Con7.connectIVNoException("PE",PE);
+    Con7.connectIVNoException("Block",Block);
+    BlockCon = (BOOL)Con7.ovNamedNoException("BlockCon");
+    Con7.connectIVNoException("Candidate",Candidate);
+    Con7.connectIVNoException("PE13",PE13);
+    Con7.connectIVNoException("TokenIN",TokenIn);
+    Token = (BOOL)Con7.ovNamedNoException("Token");
+    Con8.connectIVNoException("PE",PE_8);
+    Multi_ID_Out = (INT)Con8.ovNamedNoException("Multi_ID_Out");
+    Multi_Time_Out = (INT)Con8.ovNamedNoException("Multi_Time_Out");
+    Access_Req_Out = (BOOL)Con8.ovNamedNoException("Access_Req_Out");
+    Con8.connectIVNoException("PE_14",PE_14);
+    Con8.connectIVNoException("Access_Req",Access_Req);
+    Con8.connectIVNoException("Multi_Time_In",Multi_Time_In);
+    Con8.Block.initializeNoException("0");
+    Con8.Candidate.initializeNoException("0");
+    Con8.Multi_ID.initializeNoException("0");
     FC13.PE.initializeNoException("0");
     FC13.Block.initializeNoException("0");
     FC13.Candidate.initializeNoException("0");
@@ -275,20 +275,20 @@ public ThreeConCtl(){
   public void initialize(String fbName, Resource r)
   throws FBRManagementException{
     super.initialize(fbName,r);
-    FC11.initialize("FC11",r);
-    FC12.initialize("FC12",r);
+    Con7.initialize("Con7",r);
+    Con8.initialize("Con8",r);
     FC13.initialize("FC13",r);
 }
 /** Start the FB instances. */
 public void start( ){
-  FC11.start();
-  FC12.start();
+  Con7.start();
+  Con8.start();
   FC13.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
-  FC11.stop();
-  FC12.stop();
+  Con7.stop();
+  Con8.stop();
   FC13.stop();
 }
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RingTokenHasCTL" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PE" />
+        <With Var="Block" />
+        <With Var="Candidate" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PE" />
+        <With Var="Block" />
+        <With Var="Candidate" />
+      </Event>
+      <Event Name="CAS_STOP" >
+      </Event>
+      <Event Name="CAS_START" >
+      </Event>
+      <Event Name="TokenUpdateIN" >
+        <With Var="PE" />
+        <With Var="Block" />
+        <With Var="Candidate" />
+        <With Var="PE13" />
+        <With Var="TokenIN" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="STOP" >
+      </Event>
+      <Event Name="START" >
+      </Event>
+      <Event Name="TokenUpdate" >
+        <With Var="Token" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PE" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="Block" Type="BOOL" />
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="PE13" Type="BOOL" />
+      <VarDeclaration Name="TokenIN" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRotate" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+      <VarDeclaration Name="Token" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="lastPE" Type="BOOL" InitialValue="1" />
+      <VarDeclaration Name="lastBlock" Type="BOOL" InitialValue="0" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="TOKEN" x="1517.647" y="688.2353" >
+        <ECAction Algorithm="START" Output="START" />
+        <ECAction Output="CNF" />
+        <ECAction Algorithm="DISCARD" Output="TokenUpdate" />
+        <ECAction Algorithm="PRINT_USING" />
+      </ECState>
+      <ECState Name="NO_TOKEN" x="3841.1765" y="2058.8235" >
+        <ECAction Algorithm="SEND" Output="TokenUpdate" />
+        <ECAction Algorithm="SEND" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="INIT" x="982.3529" y="358.82352" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="CRITICAL_SECTION" x="1517.647" y="1988.2352" >
+        <ECAction Algorithm="START" Output="START" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="CRITICAL_SECTION_Dept" x="888.2353" y="3358.8235" >
+      </ECState>
+      <ECState Name="CS_FROZEN" x="4435.294" y="3035.294" >
+        <ECAction Algorithm="STOP" Output="STOP" />
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECState Name="WANT" x="2794.1177" y="2358.8235" >
+        <ECAction Algorithm="STOP" Output="STOP" />
+        <ECAction Output="CNF" />
+        <ECAction Algorithm="PRINT_WAITING" />
+      </ECState>
+      <ECTransition Source="TOKEN" Destination="NO_TOKEN" Condition="REQ&#38;PE" x="3841.1765" y="688.2353" />
+      <ECTransition Source="NO_TOKEN" Destination="TOKEN" Condition="TokenUpdateIN&#38;TokenIN" x="2741.1765" y="1388.2352" />
+      <ECTransition Source="TOKEN" Destination="INIT" Condition="INIT" x="982.3529" y="688.2353" />
+      <ECTransition Source="TOKEN" Destination="CRITICAL_SECTION" Condition="REQ&#38;!PE" x="1517.647" y="1676.4706" />
+      <ECTransition Source="CRITICAL_SECTION" Destination="CRITICAL_SECTION_Dept" Condition="REQ&#38;PE" x="888.2353" y="1976.4706" />
+      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="CS_FROZEN" Condition="REQ&#38;!PE" x="4423.5293" y="3358.8235" />
+      <ECTransition Source="CRITICAL_SECTION_Dept" Destination="NO_TOKEN" Condition="REQ&#38;!PE13" x="3829.4116" y="2900.0" />
+      <ECTransition Source="CS_FROZEN" Destination="NO_TOKEN" Condition="REQ&#38;!PE13" x="4435.294" y="2505.8823" />
+      <ECTransition Source="WANT" Destination="CRITICAL_SECTION" Condition="TokenUpdateIN&#38;TokenIN" x="1517.647" y="2358.8235" />
+      <ECTransition Source="NO_TOKEN" Destination="WANT" Condition="REQ&#38;!PE" x="2794.1177" y="2058.8235" />
+      <ECTransition Source="INIT" Destination="TOKEN" Condition="1" x="1282.3529" y="535.2941" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <ST Text="MotoRotate := TRUE;&#10;Block := FALSE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="if(Candidate.value){&#10;if(lastPE.value!=PE.value){&#10;if(!PE.value){&#10;BlockCon.value=true;&#10;}&#10; else {&#10;BlockCon.value=false;&#10;}&#10;lastPE.value=PE.value;&#10;}&#10;if(lastBlock.value!=Block.value){&#10;if(Block.value){&#10;STOP.serviceEvent(this);&#10;MotoRotate.value=false;&#10;}&#10; else {&#10;START.serviceEvent(this);&#10;MotoRotate.value=true;&#10;}&#10;lastBlock.value=Block.value;&#10;}&#10;}&#10;" />
+  </Algorithm>
+  <Algorithm Name="START" >
+    <ST Text="MotoRotate:=TRUE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="STOP" >
+    <ST Text="MotoRotate := FALSE;&#10;" />
+  </Algorithm>
+  <Algorithm Name="DISCARD" >
+    <Other Language="Java" Text="Token.value = false;&#10;" />
+  </Algorithm>
+  <Algorithm Name="SEND" >
+    <Other Language="Java" Text="Token.value = true;&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_WAITING" >
+    <Other Language="Java" Text="System.out.println(this+&#34;is waiting for Ring Token&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="PRINT_USING" >
+    <Other Language="Java" Text="System.out.println(this+&#34;is using Ring Token&#34;);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

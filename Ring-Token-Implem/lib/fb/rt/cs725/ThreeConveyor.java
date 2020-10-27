@@ -1,11 +1,11 @@
-/* Copyright (c)2013 Rockwell Automation. All rights reserved. */
+/* Copyright (c)2020 Rockwell Automation. All rights reserved. */
 package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ThreeConveyor
   * @author JHC
-  * @version 20130429/JHC
+  * @version 20201027/JHC
   */
 public class ThreeConveyor extends FBInstance
 {
