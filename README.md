@@ -10,6 +10,6 @@ Each critical section is handled by different mutual exclusion algorithms as ind
 To run:
 - In the folder with editor.jar, run the command java -jar editor.jar
 - Agree to the terms and coniditions
-- Open the cs275 folder
+- Open the src and then the cs275 folder
 - Open BaggageSystemCTL.sys
 - Compile and run
